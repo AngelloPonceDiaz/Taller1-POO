@@ -1,4 +1,5 @@
 package Taller1;
+// Angello Alexis Ponce Díaz, RUT: 22025486-0, Carrera: ICCI
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
@@ -10,18 +11,17 @@ public class Arch1 {
 		File archUsu = new File("C:/Users/angel/Desktop/Ejercicios asignaturas/POO/Taller1/txts/Usuarios.txt");
 		Scanner lector = new Scanner(archUsu);
 		
-		int contador = 0; // usado para contar la cantidad de usuarios y generar una lista segun cuantos haya
+		int contadorUsu = 0; // usado para contar la cantidad de usuarios y generar una lista segun cuantos haya
 		
 		while (lector.hasNextLine()) { //Ciclo que lee todo el archivo de usuarios
-			String linea = lector.nextLine();
-			String[] partes = linea.split(";");		
-			contador++;			
+			lector.nextLine();
+			contadorUsu++;			
 		}
 		lector.close();
 		
-		String[] usuariosList = new String[contador]; 
+		String[] usuariosList = new String[contadorUsu]; 
 		//Listas de usuarios y sus contraseñas
-		String[] passwordList = new String[contador];
+		String[] passwordList = new String[contadorUsu];
 		
 		Scanner lector2 = new Scanner(archUsu);
 		int i = 0; //se va a usar para avanzar en la lista a continuacion
@@ -35,6 +35,19 @@ public class Arch1 {
 			
 		}
 		lector2.close();
+		//lectura del archivo Registros.txt
+		
+		File archReg = new File("C:/Users/angel/Desktop/Ejercicios asignaturas/POO/Taller1/txts/Registros.txt");
+		Scanner lector3 = new Scanner(archReg);
+		String[] regList = new String[300]; //Lista para colocar los registros
+		int j = 0;
+		while (lector3.hasNextLine()) {
+			String linea = lector3.nextLine();
+			regList[j] = linea;
+			j++;
+		}
+		lector3.close();
+			
 		
 		int opcion = 0;
 		do {
@@ -61,15 +74,157 @@ public class Arch1 {
 						eVelda = true;
 						break;
 					}
-
 				}
-				if (eVelda == false) {
+				
+				while (eVelda == false) {
 					System.out.println("Usuario no se encuentra en la base de datos");
+					System.out.print("Ingrese su usuario de nuevo:" );
+					user = esUser.nextLine();
+					
+					for(i=0; i < usuariosList.length;i++) {
+						if (usuariosList[i].equals(user)){
+							eVelda = true;
+							break;
+						}
+
+					}	
 				}
 				
+				// ahora aqui deberia preguntar por la contraseña asi q eso vamos a preguntar
+				
+				System.out.print("Ingrese la contraseña: ");
+				boolean veldaEs = false;
+				String passWord = esUser.nextLine();
+				for(i = 0;i < passwordList.length;i++) {
+					if (passwordList[i].equals(passWord) && usuariosList[i].equals(user)) {
+						veldaEs = true;
+						System.out.println("Acceso concedido!");
+						break;
+					}	
+				}
+				while (veldaEs == false) {
+					System.out.println("");
+					System.out.println("Contraseña incorrecta");
+					System.out.print("Ingrese la contraseña nuevamente: ");
+					passWord = esUser.nextLine();
+					for(i = 0;i < passwordList.length;i++) {
+						if (passwordList[i].equals(passWord) && usuariosList[i].equals(user)) {
+							veldaEs = true;
+							System.out.println("Acceso concedido!");
+							System.out.println("");
+							break;
+						}	
+					}
+				}
+				// La parte de contraseñas esta lista creo, ya sabe cual es cual
+				System.out.println("Bienvenido " + user + "!");
+				System.out.println("");
+				System.out.println("¿Qué deseas realizar?");
+				
+				System.out.println("1) Registrar actividad");
+				System.out.println("2) Modificar actividad");
+				System.out.println("3) Eliminar actividad");
+				System.out.println("4) Cambiar contraseña");
+				System.out.println("5) Salir");
+				System.out.print("Ingrese una opcion: ");
+				int opp = esUser.nextInt();
+				switch(opp) {
+				case 1:
+
+					
+					break;
+				
+				case 2:
+					System.out.println("Cual actividad deseas modificar?");
+					System.out.println("0) Regresar");
+					System.out.println("");
+					
+					int contador = 1;
+					for(i = 0;i < regList.length;i++) {
+						if (regList[i] != null){ //detecta si el espacio en el vector esta lleno o no
+							String[] partes = regList[i].split(";"); //Divide las variables
+							if(partes[0].equals(user) && regList[i] != null) {
+								System.out.println(contador + ") " + regList[i]);
+								contador++;
+							}
+						}
+					}
+					System.out.println("");
+					System.out.print(">>");
+					int actCambiar = esUser.nextInt(); //Que actividad especifica va a cambiar
+					esUser.nextLine();
+					
+					System.out.println("");
+					System.out.println("Que deseas modificar?");
+					System.out.println("");
+					
+					System.out.println("0) Regresar");
+					System.out.println("1) Fecha");
+					System.out.println("2) Duracion");
+					System.out.println("3) Tipo de actividad");
+					System.out.print(">>");
+					int opMod = esUser.nextInt(); //opcion de que va a modificar
+					esUser.nextLine(); //Esto evita saltos o errores al escribir nextInt
+					String lineaElegida = null;
+					int actNumero = 0;
+					contador = 1;
+					int dosContador = 0;
+					for(i=0;i < regList.length;i++) {
+						if(regList[i] != null) {
+							String[] partes = regList[i].split(";");
+							dosContador++;
+							if(partes[0].equals(user)){
+								contador++;
+								if(contador == opMod+1) {
+									lineaElegida = regList[i];
+									actNumero = dosContador;
+									break;
+								}
+							}
+						}
+						
+					}
+					
+					switch (opMod) {
+					
+					case 0:
+						System.out.println("Algo deberia suceder aqui, pero no se ha desarrollado aun");
+						break;
+					case 1:
+						System.out.println("Otra cosa que deberia estar aqui pero sigue en desarrollo, paciencia pordio");
+						break;
+						
+					case 2:
+						System.out.println("Si, voy a demorarme en esto HFJSDKLFASD");
+						break;
+					
+					case 3:
+						System.out.println("");
+						System.out.println("0) Regresar");
+						
+						System.out.println("Ingrese el nuevo tipo de actividad: ");
+						String actividad = esUser.nextLine();
+						
+						
+						
+						contador = 1;
+						break;
+					
+					default:
+						System.out.println("Error, ingrese un valor disponible");
+						break;
+
+					}
+					
+					break;
+				case 3:
+					
+				}
+
 				
 				
-				break; //Cierra el caso
+				
+				break; //Cierra el caso 1
 			case 2:
 				System.out.println("Ingrese... algo");
 				break;

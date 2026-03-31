@@ -1,0 +1,13 @@
+while (eVelda == false) {
+					System.out.println("Usuario no se encuentra en la base de datos");
+					System.out.print("Ingrese su usuario de nuevo:" );
+					user = esUser.nextLine();
+					
+				}
+				
+				for(i=0; i < usuariosList.length;i++) {
+					if (usuariosList[i].equals(user)){
+						eVelda = true;
+						break;
+					}
+				
