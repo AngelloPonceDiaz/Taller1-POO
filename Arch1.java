@@ -5,240 +5,211 @@ import java.io.File;
 import java.io.IOException;
 
 public class Arch1 {
-
+	static String[] usuariosList;
+	static String[] passwordList;
+	
+	static String[] regUser = new String[300];
+	static String[] regFecha = new String[300];
+	static String[] regActividad = new String[300];
+	static String[] regHora = new String[300];
+	static int totalRegistros = 0;
+	static Scanner escribe = new Scanner(System.in);
+	
 	public static void main(String[] args) throws IOException 
 	{
-		File archUsu = new File("C:/Users/angel/Desktop/Ejercicios asignaturas/POO/Taller1/txts/Usuarios.txt");
-		Scanner lector = new Scanner(archUsu);
-		
-		int contadorUsu = 0; // usado para contar la cantidad de usuarios y generar una lista segun cuantos haya
-		
-		while (lector.hasNextLine()) { //Ciclo que lee todo el archivo de usuarios
-			lector.nextLine();
-			contadorUsu++;			
-		}
-		lector.close();
-		
-		String[] usuariosList = new String[contadorUsu]; 
-		//Listas de usuarios y sus contraseñas
-		String[] passwordList = new String[contadorUsu];
-		
-		Scanner lector2 = new Scanner(archUsu);
-		int i = 0; //se va a usar para avanzar en la lista a continuacion
-		while (lector2.hasNextLine()) {
-			String linea2 = lector2.nextLine();
-			String[] partes2 = linea2.split(";");
-			
-			usuariosList[i] = partes2[0];
-			passwordList[i] = partes2[1]; 
-			i++;
-			
-		}
-		lector2.close();
-		//lectura del archivo Registros.txt
-		
-		File archReg = new File("C:/Users/angel/Desktop/Ejercicios asignaturas/POO/Taller1/txts/Registros.txt");
-		Scanner lector3 = new Scanner(archReg);
-		String[] regList = new String[300]; //Lista para colocar los registros
-		int j = 0;
-		while (lector3.hasNextLine()) {
-			String linea = lector3.nextLine();
-			regList[j] = linea;
-			j++;
-		}
-		lector3.close();
-			
+		cargarUsu();
+		cargarReg();
+
 		
 		int opcion = 0;
 		do {
-			System.out.println("1) Menu de Usuarios"); // este es el menu 
+			System.out.println("1) Menu de usuarios");
 			System.out.println("2) Menu de Analisis");
 			System.out.println("3) Salir");
 			System.out.print("Ingrese una opcion: ");
 			
-			Scanner opMenu = new Scanner(System.in);
-			opcion = opMenu.nextInt();
-			System.out.println("");
-			switch (opcion) {
+			opcion = escribe.nextInt();
+			escribe.nextLine();
 			
-			case 1:
-				Scanner esUser = new Scanner(System.in);
-				
-				System.out.print("Ingrese su usuario: ");
-				String user = esUser.nextLine();
-				
-				boolean eVelda = false; // Booleano que se activa si el usuario está en una lista
-				
-				for(i=0; i < usuariosList.length;i++) {
-					if (usuariosList[i].equals(user)){
-						eVelda = true;
-						break;
-					}
-				}
-				
-				while (eVelda == false) {
-					System.out.println("Usuario no se encuentra en la base de datos");
-					System.out.print("Ingrese su usuario de nuevo:" );
-					user = esUser.nextLine();
-					
-					for(i=0; i < usuariosList.length;i++) {
-						if (usuariosList[i].equals(user)){
-							eVelda = true;
-							break;
-						}
-
-					}	
-				}
-				
-				// ahora aqui deberia preguntar por la contraseña asi q eso vamos a preguntar
-				
-				System.out.print("Ingrese la contraseña: ");
-				boolean veldaEs = false;
-				String passWord = esUser.nextLine();
-				for(i = 0;i < passwordList.length;i++) {
-					if (passwordList[i].equals(passWord) && usuariosList[i].equals(user)) {
-						veldaEs = true;
-						System.out.println("Acceso concedido!");
-						break;
-					}	
-				}
-				while (veldaEs == false) {
-					System.out.println("");
-					System.out.println("Contraseña incorrecta");
-					System.out.print("Ingrese la contraseña nuevamente: ");
-					passWord = esUser.nextLine();
-					for(i = 0;i < passwordList.length;i++) {
-						if (passwordList[i].equals(passWord) && usuariosList[i].equals(user)) {
-							veldaEs = true;
-							System.out.println("Acceso concedido!");
-							System.out.println("");
-							break;
-						}	
-					}
-				}
-				// La parte de contraseñas esta lista creo, ya sabe cual es cual
-				System.out.println("Bienvenido " + user + "!");
-				System.out.println("");
-				System.out.println("¿Qué deseas realizar?");
-				
-				System.out.println("1) Registrar actividad");
-				System.out.println("2) Modificar actividad");
-				System.out.println("3) Eliminar actividad");
-				System.out.println("4) Cambiar contraseña");
-				System.out.println("5) Salir");
-				System.out.print("Ingrese una opcion: ");
-				int opp = esUser.nextInt();
-				switch(opp) {
-				case 1:
-
-					
-					break;
-				
-				case 2:
-					System.out.println("Cual actividad deseas modificar?");
-					System.out.println("0) Regresar");
-					System.out.println("");
-					
-					int contador = 1;
-					for(i = 0;i < regList.length;i++) {
-						if (regList[i] != null){ //detecta si el espacio en el vector esta lleno o no
-							String[] partes = regList[i].split(";"); //Divide las variables
-							if(partes[0].equals(user) && regList[i] != null) {
-								System.out.println(contador + ") " + regList[i]);
-								contador++;
-							}
-						}
-					}
-					System.out.println("");
-					System.out.print(">>");
-					int actCambiar = esUser.nextInt(); //Que actividad especifica va a cambiar
-					esUser.nextLine();
-					
-					System.out.println("");
-					System.out.println("Que deseas modificar?");
-					System.out.println("");
-					
-					System.out.println("0) Regresar");
-					System.out.println("1) Fecha");
-					System.out.println("2) Duracion");
-					System.out.println("3) Tipo de actividad");
-					System.out.print(">>");
-					int opMod = esUser.nextInt(); //opcion de que va a modificar
-					esUser.nextLine(); //Esto evita saltos o errores al escribir nextInt
-					String lineaElegida = null;
-					int actNumero = 0;
-					contador = 1;
-					int dosContador = 0;
-					for(i=0;i < regList.length;i++) {
-						if(regList[i] != null) {
-							String[] partes = regList[i].split(";");
-							dosContador++;
-							if(partes[0].equals(user)){
-								contador++;
-								if(contador == opMod+1) {
-									lineaElegida = regList[i];
-									actNumero = dosContador;
-									break;
-								}
-							}
-						}
-						
-					}
-					
-					switch (opMod) {
-					
-					case 0:
-						System.out.println("Algo deberia suceder aqui, pero no se ha desarrollado aun");
-						break;
-					case 1:
-						System.out.println("Otra cosa que deberia estar aqui pero sigue en desarrollo, paciencia pordio");
-						break;
-						
-					case 2:
-						System.out.println("Si, voy a demorarme en esto HFJSDKLFASD");
-						break;
-					
-					case 3:
-						System.out.println("");
-						System.out.println("0) Regresar");
-						
-						System.out.println("Ingrese el nuevo tipo de actividad: ");
-						String actividad = esUser.nextLine();
-						
-						
-						
-						contador = 1;
-						break;
-					
-					default:
-						System.out.println("Error, ingrese un valor disponible");
-						break;
-
-					}
-					
-					break;
-				case 3:
-					
-				}
-
+			if (opcion == 1) {
+				logIn();
 				
 				
-				
-				break; //Cierra el caso 1
-			case 2:
-				System.out.println("Ingrese... algo");
-				break;
-			case 3:
-				System.out.println("Ya bueno");
-				break;
-				
-			default:
-				System.out.println("Error");
+			} else if(opcion == 2) {
+				// menu de analisis :P
 			}
+			
 		} while(opcion != 3);
-
+		System.out.println("Gracias por usar este programa.");
 	}
 
+	
+	// ************************** FUNCIONES ******************************* //
+	public static void cargarUsu() throws IOException{  
+		
+		File archUsu = new File("C:/Users/angel/Desktop/Ejercicios asignaturas/POO/Taller1/txts/Usuarios.txt");
+		Scanner cuentoUsu = new Scanner(archUsu);
+		
+		int contadorUsu = 0;
+		
+		while (cuentoUsu.hasNextLine()) {
+			cuentoUsu.nextLine();
+			contadorUsu++;
+		}
+		cuentoUsu.close();
+		usuariosList = new String[contadorUsu];
+		passwordList = new String[contadorUsu];
+		
+		Scanner lector = new Scanner(archUsu);
+		
+		int i = 0;
+		while (lector.hasNextLine()) {
+			String linea = lector.nextLine();
+			String[] partes = linea.split(";");
+			
+			usuariosList[i] = partes[0]; //poblando las listas
+			passwordList[i] = partes[1]; 
+			i++;
+		
+		}lector.close();
+	}
+	
+	// // 
+	
+	public static void cargarReg() throws IOException{
+		File archReg = new File("C:/Users/angel/Desktop/Ejercicios asignaturas/POO/Taller1/txts/Registros.txt");
+		Scanner lector = new Scanner(archReg);
+		
+		while (lector.hasNextLine() && totalRegistros < 300) {
+	        String linea = lector.nextLine();
+	        String[] partes = linea.split(";");
+	        
+	        if (partes.length >= 4) {
+	            regUser[totalRegistros] = partes[0];
+	            regFecha[totalRegistros] = partes[1];
+	            regHora[totalRegistros] = partes[2];
+	            regActividad[totalRegistros] = partes[3];
+	            totalRegistros++;
+	        }
+	    }
+	    lector.close();	
+	}
+	
 
+	public static void logIn(){ //Completadocreo
+		System.out.print("Ingrese su usuario: ");
+		String user = escribe.nextLine();
+		int i;
+		boolean eVelda = false;
+		while (eVelda ==false ) {
+			for( i = 0 ; i < usuariosList.length ; i++ ) {
+				if(usuariosList[i] != null && usuariosList[i].equals(user)) {
+					eVelda = true;
+					break;
+				}
+			}
+			if (eVelda == false) {
+				System.out.println("El usuario no se encuentra en la base de datos");
+				System.out.print("Ingrese el usuario nuevamente: ");
+				user = escribe.nextLine();
+			}
+		}
+		
+		System.out.print("Ingrese su contraseña: ");
+		String password = escribe.nextLine(); 
+		boolean correctPass = false;
+		while(correctPass == false) {
+			for(i = 0 ; i < passwordList.length ; i++) {
+				
+				if(passwordList[i].equals(password) && usuariosList[i].equals(user)) {
+					correctPass = true;
+					break;
+				}
+			}
+			if(correctPass == false) {
+				System.out.println("Contraseña incorrecta!!");
+				System.out.print("Ingrese su contraseña nuevamente: ");
+				password = escribe.nextLine();
+				
+			}
+
+		}
+				System.out.println("Acceso concedido!!");
+		
+		System.out.println("Bienvenid@ "+user+"!!!!!!");
+		System.out.println("");
+		System.out.println("Qué deseas hacer?");
+		
+		
+		menuUsuarios(user);
+	}   
+	// ** //
+	
+	public static void menuUsuarios(String nombreUser) {
+		int opcion = 0;
+		
+		while (opcion != 5) {
+
+	        System.out.println("1) Registrar Actividad");
+	        System.out.println("2) Modificar Actividad");
+	        System.out.println("3) Eliminar Actividad");
+	        System.out.println("4) Cambiar Contraseña");
+	        System.out.println("5) Salir");
+	        System.out.print(">> ");
+	        opcion = escribe.nextInt();
+	        escribe.nextLine();
+	        
+	        switch(opcion){
+	        
+	        case 1:
+	        	
+	        	System.out.println();
+	        	System.out.print("Ingrese la fecha de la actividad (DD/MM/AA): ");
+	        	String fecha = escribe.nextLine();
+	        	
+	        	System.out.print("Ingrese la duración en horas: ");
+	        	String horas = escribe.nextLine();        	
+	        	
+	        	System.out.print("Ingrese el tipo de actividad: ");
+	        	String actividad = escribe.nextLine();
+	        	
+	        	if(totalRegistros < 300) {
+	        		regUser[totalRegistros] = nombreUser;
+	        		regFecha[totalRegistros] = fecha;
+	        		regActividad[totalRegistros] = actividad;
+	        		regHora[totalRegistros] = horas;
+	        		
+	        	System.out.println("Actividad registrada con éxito!!");
+	        	System.out.println(" ");
+	        	//Deberia agregarlos al archivo pero no se hacer eso aun :P. Seguiré haciendo el resto del codigo
+	        	}
+	        	
+	        case 2:
+	        	
+	        	System.out.println("");
+	        	System.out.println("Qué actividad deseas modificar?");
+	        	
+	        	int[] index = new int[300]; 
+	        	int contador = 1;
+	        	int i;
+	        	for(i = 0; i < totalRegistros; i++) {
+	        		if(regUser[i] != null && regUser[i].equals(nombreUser)) {
+	        			System.out.println(contador+") "+ regFecha[i] +" | "+ regHora[i] + " | " + regActividad[i]);
+	        			index[contador] = i;
+	        			contador++;
+	        		}
+	        	
+	        	}
+	        	System.out.print(">>");
+	        	int actividadSeleccionada = escribe.nextInt();
+		        escribe.nextLine();	
+	        	
+		        System.out.println("Qué deseas modificar?");
+		        System.out.println("0) Regresar");
+	        }
+	        
+		}
+	}
+	
 }
 
