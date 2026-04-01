@@ -347,6 +347,7 @@ public class Arch1 {
 			System.out.println("2) Actividad mas realizada por cada usuario");
 			System.out.println("3) Usuario con mayor procrastinacion");
 			System.out.println("4) Ver todas las actividades");
+			System.out.println("5) Salir");
 			System.out.print(">>");
 			
 			opcion = escribe.nextInt();
@@ -378,13 +379,49 @@ public class Arch1 {
 				System.out.println("La actividad mas realizada fue "+actividadMas+" que fue realizada "+contadorAct+" veces");
 				System.out.println("");
 				break;
-			case 2:
-				
+			case 2: //es lo mas complicado creo asi q lo dejo al final :P
+				i = 0;
+				int contadorUser = 0;
+				String userActual = "";
+				for(i = 0; i < usuariosList.length;i++) {
+					
+					userActual = usuariosList[i];
+					
+					for(int j = 0; j < totalRegistros;j++) {
+						if(regUser[i].equals(userActual)) {
+							
+						}
+						
+					}
+				}
 				
 				break;
 			case 3:
+
+				String userProcrastinante = "";
+				String maxUserProcrastinante = "";
+				int maxProcrastinador = 0;
+				
+				for(i = 0; i < usuariosList.length ; i++) {
+					userProcrastinante = usuariosList[i];
+					int contandoConFor = 0;
+					for(int j = 0;j < totalRegistros; j++) {
+						if(regUser[j].equals(userProcrastinante)) {
+							contandoConFor = contandoConFor + Integer.valueOf(regHora[j]);
+							
+						}
+					}
+				if(contandoConFor > maxProcrastinador) {
+					maxProcrastinador = contandoConFor;
+					maxUserProcrastinante = userProcrastinante;
+				}
+				
+				}
+				
+				System.out.println("El usuario mas procrastinador es " + maxUserProcrastinante + " con " + maxProcrastinador + " horas perdidas");
 				break;
 			case 4:
+				
 				break;
 			case 5:
 				return;
