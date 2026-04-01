@@ -19,32 +19,45 @@ public class Arch1 {
 	{
 		cargarUsu();
 		cargarReg();
-
 		
-		int opcion = 0;
-		do {
-			System.out.println("1) Menu de usuarios");
-			System.out.println("2) Menu de Analisis");
-			System.out.println("3) Salir");
-			System.out.print("Ingrese una opcion: ");
-			
-			opcion = escribe.nextInt();
-			escribe.nextLine();
-			
-			if (opcion == 1) {
-				logIn();
-				
-				
-			} else if(opcion == 2) {
-				// menu de analisis :P
-			}
-			
-		} while(opcion != 3);
-		System.out.println("Gracias por usar este programa.");
+		menuPrincipal();
+		
+		escribe.close();
+
 	}
 
 	
 	// ************************** FUNCIONES ******************************* //
+	public static void menuPrincipal() {
+		int opcion = 0;
+		while (opcion != 3){
+			
+		
+		System.out.println("1) Menu de usuarios");
+		System.out.println("2) Menu de Analisis");
+		System.out.println("3) Salir");
+		System.out.print("Ingrese una opcion: ");
+		opcion = escribe.nextInt();
+		escribe.nextLine();
+		
+		switch(opcion) {
+		case 1:
+			logIn();
+			break;
+		case 2: 
+			menuAnalisis();
+			break;
+		case 3:
+			System.out.println("Gracias por usar este programa.");
+			break;
+			}
+		}
+		
+	}
+	
+
+
+
 	public static void cargarUsu() throws IOException{  
 		
 		File archUsu = new File("C:/Users/angel/Desktop/Ejercicios asignaturas/POO/Taller1/txts/Usuarios.txt");
@@ -167,6 +180,27 @@ public class Arch1 {
 	        	System.out.print("Ingrese la fecha de la actividad (DD/MM/AAAA): ");
 	        	String fecha = escribe.nextLine();
 	        	
+	        	//tests
+	        	int p;
+	        	String [] separaciones = fecha.split("/");
+	        	int dia = Integer.valueOf(separaciones[0]);
+	        	int mes = Integer.valueOf(separaciones[1]);
+	        	int año = Integer.valueOf(separaciones[2]);
+	        	
+	        	String[] fechasRegSeparadas = regFecha[totalRegistros-1].split("/");
+	        	
+	        	int diaReg = Integer.valueOf(fechasRegSeparadas[0]);
+	        	int mesReg = Integer.valueOf(fechasRegSeparadas[1]);
+	        	int añoReg = Integer.valueOf(fechasRegSeparadas[2]);
+	        	
+	        	while(dia < diaReg||diaReg > 30 ||mes > 12 ||mes < mesReg|| año < añoReg || año > 2026) {
+	        		System.out.println("Error");
+	        		System.out.print("Ingrese una fecha válida: ");
+	        		fecha = escribe.nextLine();
+	        	}
+	        	
+	        	//tests
+	        	
 	        	System.out.print("Ingrese la duración en horas: ");
 	        	String horas = escribe.nextLine();        	
 	        	
@@ -193,6 +227,7 @@ public class Arch1 {
 	        	int[] index = new int[300]; 
 	        	int contador = 1;
 	        	int i;
+	        	System.out.println("0) Regresar");
 	        	for(i = 0; i < totalRegistros; i++) {
 	        		if(regUser[i] != null && regUser[i].equals(nombreUser)) {
 	        			System.out.println(contador+") "+ regFecha[i] +" | "+ regHora[i] + " | " + regActividad[i]);
@@ -219,6 +254,8 @@ public class Arch1 {
 		        escribe.nextLine();
 		        
 		        switch(opcionModificar) {
+		        case 0:
+		        	return;
 		        case 1:
 		        	System.out.println("Ingrese la nueva fecha (DD/MM/AAAA): ");
 		        	regFecha[posicion] = escribe.nextLine();
@@ -246,6 +283,39 @@ public class Arch1 {
 		    // de nuevo, tengo que modificar el archivo PERO NO SE COMOOOOO AAAAAAAAAAA
 	        case 3:
 	        	System.out.println("");
+	        	int[] index2 = new int[301];
+	        	int contador2 = 1;
+	        	
+	        	for(i = 0; i < totalRegistros;i++) {
+	        		if(regUser[i] != null && regUser[i].equals(nombreUser)) {
+	        			System.out.println(contador2+") "+ regFecha[i] +" | "+ regHora[i] + " | " + regActividad[i]);
+	        			index2[contador2] = i;
+	        			contador2++;
+	        		}
+	        		
+	        	}
+	        	
+	        	System.out.println("");
+	        	System.out.println("Qué actividad deseas eliminar?: ");
+	        	int seleccion = escribe.nextInt();
+	        	escribe.nextLine();
+	        	
+	        	int posicioN = index2[seleccion];
+	        	
+	        	
+	        	for(int a = posicioN ;a < totalRegistros-1; a++) {
+	        		regUser[i] = regUser[i+1];
+	        		regFecha[i] = regFecha[i+1];
+	        		regActividad[i] = regActividad[i+1];
+	        		regHora[i] = regHora[i+1];
+	        	}
+	        	
+	        	regUser[totalRegistros-1] = null;
+	        	regFecha[totalRegistros-1] = null;
+	        	regHora[totalRegistros-1] = null;
+	       		regActividad[totalRegistros-1] = null;
+	       		System.out.println("Actividad eliminada!!");
+	        	
 	        	break;
 	        case 4:
 	        	System.out.println("");
@@ -270,6 +340,37 @@ public class Arch1 {
 	        
 		}
 	}
+	public static void menuAnalisis() {
+		int opcion = 0;
+		while (opcion !=5) {
+			System.out.println("1) Actividad mas realizada");
+			System.out.println("2) Actividad mas realizada por cada usuario");
+			System.out.println("3) Usuario con mayor procrastinacion");
+			System.out.println("4) Ver todas las actividades");
+			
+			opcion = escribe.nextInt();
+			escribe.nextLine();
+			
+			switch(opcion) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				return;
+			default:
+				System.out.println("Opcion no valida");
+				
+			}
+				
+		}
+	}
+	
+
 	
 }
 
