@@ -347,14 +347,40 @@ public class Arch1 {
 			System.out.println("2) Actividad mas realizada por cada usuario");
 			System.out.println("3) Usuario con mayor procrastinacion");
 			System.out.println("4) Ver todas las actividades");
+			System.out.print(">>");
 			
 			opcion = escribe.nextInt();
 			escribe.nextLine();
 			
 			switch(opcion) {
 			case 1:
+				int i;
+				int contadorAct = 0;
+				
+				String actividadMas = "";
+				String actBase;
+				
+				for(i = 0;i < totalRegistros;i++) {
+					int contador = 0;
+					actBase = regActividad[i];
+					for(int j = 0; j < totalRegistros; j++) {
+						if(actBase.equals(regActividad[j]) && regActividad[j] != null) {
+							
+							contador++;
+						}
+					}
+					if(contadorAct < contador) {
+						contadorAct = contador;
+						actividadMas = actBase;
+					}
+				}
+				
+				System.out.println("La actividad mas realizada fue "+actividadMas+" que fue realizada "+contadorAct+" veces");
+				System.out.println("");
 				break;
 			case 2:
+				
+				
 				break;
 			case 3:
 				break;
