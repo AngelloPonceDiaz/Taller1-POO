@@ -421,7 +421,10 @@ public class Arch1 {
 				System.out.println("El usuario mas procrastinador es " + maxUserProcrastinante + " con " + maxProcrastinador + " horas perdidas");
 				break;
 			case 4:
-				
+				System.out.println("Aquí están todas las actividades realizadas: ");
+				for(i = 0;i < totalRegistros;i++) {
+					System.out.println(i+1 + ") Usuario: " + regUser[i] + " || Fecha: " + regFecha[i] + " || Horas: " + regHora[i] + " || Actividad: " + regActividad[i]);
+				}
 				break;
 			case 5:
 				return;
