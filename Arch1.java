@@ -164,7 +164,7 @@ public class Arch1 {
 	        case 1:
 	        	
 	        	System.out.println();
-	        	System.out.print("Ingrese la fecha de la actividad (DD/MM/AA): ");
+	        	System.out.print("Ingrese la fecha de la actividad (DD/MM/AAAA): ");
 	        	String fecha = escribe.nextLine();
 	        	
 	        	System.out.print("Ingrese la duración en horas: ");
@@ -181,6 +181,7 @@ public class Arch1 {
 	        		
 	        	System.out.println("Actividad registrada con éxito!!");
 	        	System.out.println(" ");
+	        	break;
 	        	//Deberia agregarlos al archivo pero no se hacer eso aun :P. Seguiré haciendo el resto del codigo
 	        	}
 	        	
@@ -203,9 +204,68 @@ public class Arch1 {
 	        	System.out.print(">>");
 	        	int actividadSeleccionada = escribe.nextInt();
 		        escribe.nextLine();	
+	        	if(actividadSeleccionada == 0) return;
 	        	
+	        	int posicion = index[actividadSeleccionada];
+		        
+		        
 		        System.out.println("Qué deseas modificar?");
 		        System.out.println("0) Regresar");
+		        System.out.println("1) Fecha");
+		        System.out.println("2) Cantidad de horas");
+		        System.out.println("3) Tipo de actividad");
+		        System.out.print(">>");
+		        int opcionModificar = escribe.nextInt();
+		        escribe.nextLine();
+		        
+		        switch(opcionModificar) {
+		        case 1:
+		        	System.out.println("Ingrese la nueva fecha (DD/MM/AAAA): ");
+		        	regFecha[posicion] = escribe.nextLine();
+		        	System.out.println("Nueva fecha cambiada!");
+		        	
+		        	break;
+		        case 2:
+		        	System.out.println("Ingrese la nueva cantidad de horas: ");
+		        	regHora[posicion] = escribe.nextLine();
+		        	System.out.println("Nueva cantidad de horas cambiada!!");
+		        	
+		        	break;
+		        case 3:
+		        	System.out.println("Ingrese la nueva actividad: ");
+		        	regActividad[posicion] = escribe.nextLine();
+		        	System.out.println("Nueva actividad cambiada!!");
+		        	
+		        	break;
+		        default:
+		        	System.out.println("Opcion no valida");
+		        	return;
+		        }
+		        break;
+		        
+		    // de nuevo, tengo que modificar el archivo PERO NO SE COMOOOOO AAAAAAAAAAA
+	        case 3:
+	        	System.out.println("");
+	        	break;
+	        case 4:
+	        	System.out.println("");
+	        	System.out.print("Ingrese nueva contraseña: ");
+	        	String newPass = escribe.nextLine();
+	        	
+	        	int indice = 0;
+	        	for(int j = 0;j < passwordList.length ; j++) {
+	        		if(usuariosList[j].equals(nombreUser) && usuariosList[j] != null) {
+	        			indice = j;
+	        			break;
+	        		}
+	        	}
+	        	passwordList[indice] = newPass;
+	        	System.out.println("Contraseña actualizada!!!");
+	        	
+	        	break;
+	        case 5:
+	        	return;
+	        	
 	        }
 	        
 		}
