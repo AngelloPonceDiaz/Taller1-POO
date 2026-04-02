@@ -381,18 +381,36 @@ public class Arch1 {
 				break;
 			case 2: //es lo mas complicado creo asi q lo dejo al final :P
 				i = 0;
-				int contadorUser = 0;
-				String userActual = "";
+
+				
+
+				int contadorActividadActual = 0;
 				for(i = 0; i < usuariosList.length;i++) {
-					
+					String userActual = "";
+					int actividadMax = 0;
+					String actividadMaxStr = "";
+					String actividadActual = "";
 					userActual = usuariosList[i];
 					
 					for(int j = 0; j < totalRegistros;j++) {
-						if(regUser[i].equals(userActual)) {
+						if(regUser[j].equals(userActual) && regUser[j] != null) {
 							
+							actividadActual = regActividad[j];
+							contadorActividadActual = 0;
+							
+							for(int k = 0;k < totalRegistros;k++) {
+								if(regActividad[k].equals(actividadActual) && regUser[k].equals(userActual)) {
+									contadorActividadActual += Integer.valueOf(regHora[k]);
+								}
+							}
+							if(contadorActividadActual > actividadMax) {
+								actividadMax = contadorActividadActual;
+								actividadMaxStr = actividadActual;
+							}
 						}
 						
 					}
+					System.out.println(userActual + " --> " + actividadMaxStr + " --> " + actividadMax + " horas");
 				}
 				
 				break;
